@@ -3,21 +3,22 @@ from langchain_community.llms import Ollama
 
 app=Flask(__name__)
 
-# llm=Ollama(model="llama3")
+cached_llm=Ollama(model="llama3")
 
-# response=llm.invoke("why is  the sky blue?")
 
-# print(response)
+
 
 @app.route("/ai",methods=["POST"])
 def aiPOST():
     print("post ai called")
     json_content=request.json
     query=json_content.get("query")
-
     print(f"query:{query}")
+
+    response=cached_llm.invoke(query)
+    print(response)
     
-    response_answer=f"sample Response,query: {query}"
+    response_answer=f"Answer: {response}"
     return response_answer
 
 
